@@ -36,7 +36,7 @@ $di->setShared('db', function () use ($config) {
     ]);
 });
 
-// 👇 ESTO ES LO QUE FALTABA
+
 $di->setShared('view', function () {
     $view = new \Phalcon\Mvc\View();
     $view->disable();
