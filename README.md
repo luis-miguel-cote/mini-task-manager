@@ -19,3 +19,4 @@ Mini full-stack task manager with user authentication and task management.
 Create database:
 ```sql
 CREATE DATABASE task_manager;
+mysql -u root -p task_manager < backend/database/schema.sql
