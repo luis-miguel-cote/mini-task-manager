@@ -16,10 +16,33 @@ $router->addPost('/login', [
     'controller' => 'auth',
     'action'     => 'login',
 ]);
+
+$router->addPost('/tasks', [
+    'controller' => 'tasks',
+    'action' => 'create',
+]);
+
+$router->addGet('/tasks', [
+    'controller' => 'tasks',
+    'action' => 'list',
+]);
+
+
+$router->addPut('/tasks/{id}', [
+    'controller' => 'tasks',
+    'action' => 'update',
+]);
+
+$router->addDelete('/tasks/{id}', [
+    'controller' => 'tasks',
+    'action' => 'delete',
+]);
+
 $router->addGet('/test', [
     'controller' => 'test',
     'action'     => 'index',
 ]);
+
 
 
 return $router;
