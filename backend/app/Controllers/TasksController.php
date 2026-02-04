@@ -68,4 +68,20 @@ class TasksController extends Controller
 
         return $this->response->setJsonContent($task);  
     }
+
+    // DELETE-tasks/{id}
+    public function deleteAction($id)
+    {
+        $task = Task::findFirstById($id);
+        if (!$task) {
+            return $this->response
+                ->setStatusCode(404)
+                ->setJsonContent(['error' => 'Task not found']);
+        }
+
+        $task->delete();
+
+        return $this->response
+            ->setJsonContent(['message' => 'Task deleted successfully']);
+    }
 }
