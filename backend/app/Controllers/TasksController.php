@@ -32,6 +32,7 @@ class TasksController extends Controller
         }
 
         $task = new Task();
+
         $task->user_id = $data['user_id'];
         $task->title = $data['title'];
         $task->description = $data['description'] ?? '';
@@ -46,5 +47,25 @@ class TasksController extends Controller
         return $this->response
             ->setStatusCode(201)
             ->setJsonContent($task);
+    }
+
+    // PUT-tasks/{id}
+    public function updateAction($id)
+    {
+        $data = $this->request->getJsonRawBody(true);
+
+        $task = Task::findFirstById($id);
+        if (!$task) {
+            return $this->response
+                ->setStatusCode(404)
+                ->setJsonContent(['error' => 'Task not found']);
+        }
+        $task->title = $data['title'] ?? $task->title;  
+        $task->description = $data['description'] ?? $task->description;    
+        $task->status = $data['status'] ?? $task->status;   
+
+        $task->save();
+
+        return $this->response->setJsonContent($task);  
     }
 }
