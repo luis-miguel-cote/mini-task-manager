@@ -45,4 +45,40 @@ class AuthController extends Controller
                 'user_id' => $user->id
             ]);
     }
+    public function loginAction()
+    {
+        $data = $this->request->getJsonRawBody(true);
+
+        if (
+            empty($data['email']) ||
+            empty($data['password'])
+        ) {
+            return $this->response
+                ->setStatusCode(400)
+                ->setJsonContent([
+                    'error' => 'Email and password are required'
+                ]);
+        }
+
+        $user = User::findFirstByEmail($data['email']);
+
+        if (!$user || !password_verify($data['password'], $user->password)) {
+            return $this->response
+                ->setStatusCode(401)
+                ->setJsonContent([
+                    'error' => 'Invalid credentials'
+                ]);
+        }
+
+        return $this->response
+            ->setStatusCode(200)
+            ->setJsonContent([
+                'message' => 'Login successful',
+                'user' => [
+                    'id'    => $user->id,
+                    'name'  => $user->name,
+                    'email' => $user->email,
+                ]
+            ]);
+    }
 }
