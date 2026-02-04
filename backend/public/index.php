@@ -16,9 +16,10 @@ $loader = new Loader();
 
 
 $loader->setNamespaces([
-    'App\Controllers' => APP_PATH . '/Controllers/',
-    'App\Models'      => APP_PATH . '/Models/',
+    'App\Controllers' => APP_PATH . '/Controllers',
+    'App\Models'      => APP_PATH . '/Models',
 ]);
+
 
 $loader->register();
 // config

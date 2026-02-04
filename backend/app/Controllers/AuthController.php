@@ -21,7 +21,6 @@ class AuthController extends Controller
                 ->setJsonContent(['error' => 'Missing required fields']);
         }
 
-        // Check if email exists
         if (User::findFirstByEmail($data['email'])) {
             return $this->response
                 ->setStatusCode(409)

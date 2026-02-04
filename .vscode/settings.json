@@ -1,0 +1,14 @@
+{
+  "intelephense.files.associations": [
+    "*.php",
+    "*.phtml"
+  ],
+
+  "intelephense.environment.includePaths": [
+    "C:/xampp/ide-stubs"
+  ],
+
+  "intelephense.environment.phpVersion": "8.2.0",
+
+  "intelephense.telemetry.enabled": false
+}
