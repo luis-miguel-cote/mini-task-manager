@@ -16,18 +16,19 @@ $router->addPost('/login', [
     'controller' => 'auth',
     'action'     => 'login',
 ]);
-
-$router->addPost('/tasks', [
+#create task
+$router->addPost('/task', [
     'controller' => 'tasks',
     'action' => 'create',
 ]);
 
+#list tasks
 $router->addGet('/tasks', [
     'controller' => 'tasks',
     'action' => 'list',
 ]);
 
-
+#update task
 $router->addPut('/tasks/{id}', [
     'controller' => 'tasks',
     'action' => 'update',

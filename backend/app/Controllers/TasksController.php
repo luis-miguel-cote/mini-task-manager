@@ -7,6 +7,38 @@ use App\Models\Task;
 
 class TasksController extends Controller
 {
+
+        // POST-tasks
+    public function createAction()
+    {
+        $data = $this->request->getJsonRawBody(true);
+
+        if (empty($data['user_id']) || empty($data['title'])) {
+            return $this->response
+                ->setStatusCode(400)
+                ->setJsonContent(['error' => 'Missing fields']);
+        }
+
+        $task = new Task();
+        $task->user_id = $data['user_id'];
+        $task->title = $data['title'];
+        $task->description = $data['description'] ?? null;
+        $task->status = 'pending';
+
+        if (!$task->save()) {
+            return $this->response
+                ->setStatusCode(500)
+                ->setJsonContent(['error' => 'Task not created']);
+        }
+
+        return $this->response
+            ->setStatusCode(201)
+            ->setJsonContent([
+                'message' => 'Task created',
+                'task_id' => $task->id
+            ]);
+    }
+
     // GET-tasks
     public function indexAction()
     {
@@ -20,34 +52,7 @@ class TasksController extends Controller
         return $this->response->setJsonContent($tasks);
     }
 
-        // POST-tasks
-    public function createAction()
-    {
-        $data = $this->request->getJsonRawBody(true);
 
-        if (empty($data['user_id']) || empty($data['title'])) {
-            return $this->response
-                ->setStatusCode(400)
-                ->setJsonContent(['error' => 'Missing required fields']);
-        }
-
-        $task = new Task();
-
-        $task->user_id = $data['user_id'];
-        $task->title = $data['title'];
-        $task->description = $data['description'] ?? '';
-        $task->status = 'pending';
-
-        if (!$task->save()) {
-            return $this->response
-                ->setStatusCode(500)
-                ->setJsonContent(['error' => 'Task could not be created']);
-        }
-
-        return $this->response
-            ->setStatusCode(201)
-            ->setJsonContent($task);
-    }
 
     // PUT-tasks/{id}
     public function updateAction($id)
