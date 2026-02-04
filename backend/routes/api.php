@@ -25,13 +25,14 @@ $router->addPost('/task', [
 #list tasks
 $router->addGet('/tasks', [
     'controller' => 'tasks',
-    'action' => 'list',
+    'action' => 'index',
 ]);
 
+
 #update task
-$router->addPut('/tasks/{id}', [
+$router->addPut('/task/{id}', [
     'controller' => 'tasks',
-    'action' => 'update',
+    'action' => 'Update',
 ]);
 
 $router->addDelete('/tasks/{id}', [

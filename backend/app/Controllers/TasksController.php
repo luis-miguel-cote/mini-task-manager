@@ -49,7 +49,8 @@ class TasksController extends Controller
             'bind' => ['user_id' => $userId]
         ]);
 
-        return $this->response->setJsonContent($tasks);
+        return $this->response->setJsonContent($tasks->toArray());
+
     }
 
 
