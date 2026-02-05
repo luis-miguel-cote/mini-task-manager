@@ -13,9 +13,9 @@ return new Config([
     ],
 
     'jwt' => [
-        'secret' => 'f8b9c1e2d4a6F!S@0#QxW3E5R7T9YH2KJ4L6M8ZC',
+        'secret' => 'f8b9c1e2d4a6F!S@0#QxW3E5R7T9YH2KJ4L6M8ZCVBNm',
         'algo'   => 'HS256',
-        'expire' => 3600 // 1 hora
+        'expire' => 3600 // 1 hour
     ],
 
     'app' => [
