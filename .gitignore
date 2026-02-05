@@ -1,0 +1,12 @@
+# PHP / Composer
+backend/vendor/
+
+# Node / React
+frontend/node_modules/
+
+# Env files
+.env
+.env.local
+
+# Logs
+*.log
