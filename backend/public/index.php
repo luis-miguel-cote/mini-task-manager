@@ -3,7 +3,12 @@
 use Phalcon\Mvc\Application;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Autoload\Loader;
+use Phalcon\Mvc\Dispatcher;
+use App\Middleware\AuthMiddleware;
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Db\Adapter\Pdo\Mysql as MysqlAdapter;
+
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -21,6 +26,7 @@ $loader = new Loader();
 $loader->setNamespaces([
     'App\Controllers' => APP_PATH . '/Controllers',
     'App\Models'      => APP_PATH . '/Models',
+    'App\Middleware'  => APP_PATH . '/Middleware',
 ]);
 
 
@@ -45,6 +51,20 @@ $di->setShared('view', function () {
     $view = new \Phalcon\Mvc\View();
     $view->disable();
     return $view;
+});
+
+$di->setShared('dispatcher', function () {
+    $eventsManager = new EventsManager();
+
+    $eventsManager->attach(
+        'dispatch:beforeExecuteRoute',
+        new AuthMiddleware()
+    );
+
+    $dispatcher = new Dispatcher();
+    $dispatcher->setEventsManager($eventsManager);
+
+    return $dispatcher;
 });
 
 // router
