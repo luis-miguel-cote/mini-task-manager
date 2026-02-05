@@ -6,9 +6,12 @@ use Phalcon\Autoload\Loader;
 use Phalcon\Db\Adapter\Pdo\Mysql as MysqlAdapter;
 
 error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
+
+require BASE_PATH . '/vendor/autoload.php';
 
 $di = new FactoryDefault();
 

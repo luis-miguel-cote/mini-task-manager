@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 use Phalcon\Mvc\Controller;
 use App\Models\User;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
 
 class AuthController extends Controller
 {
@@ -45,19 +48,14 @@ class AuthController extends Controller
                 'user_id' => $user->id
             ]);
     }
-    public function loginAction()
+public function loginAction()
 {
     $data = $this->request->getJsonRawBody(true);
 
-    if (
-        empty($data['email']) ||
-        empty($data['password'])
-    ) {
+    if (empty($data['email']) || empty($data['password'])) {
         return $this->response
             ->setStatusCode(400)
-            ->setJsonContent([
-                'error' => 'Email and password are required'
-            ]);
+            ->setJsonContent(['error' => 'Missing credentials']);
     }
 
     $user = User::findFirstByEmail($data['email']);
@@ -65,20 +63,32 @@ class AuthController extends Controller
     if (!$user || !password_verify($data['password'], $user->password)) {
         return $this->response
             ->setStatusCode(401)
-            ->setJsonContent([
-                'error' => 'Invalid credentials'
-            ]);
+            ->setJsonContent(['error' => 'Invalid credentials']);
     }
 
-    return $this->response
-        ->setStatusCode(200)
-        ->setJsonContent([
-            'message' => 'Login successful',
-            'user' => [
-                'id'    => $user->id,
-                'name'  => $user->name,
-                'email' => $user->email,
-            ]
-        ]);
+    $config = $this->di->get('config');
+
+    $payload = [
+        'iss' => 'mini-task-manager',
+        'iat' => time(),
+        'exp' => time() + $config->jwt->expire,
+        'sub' => $user->id
+    ];
+
+    $token = JWT::encode(
+        $payload,
+        $config->jwt->secret,
+        $config->jwt->algo
+    );
+
+    return $this->response->setJsonContent([
+        'token' => $token,
+        'user' => [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email
+        ]
+    ]);
 }
+
 }
