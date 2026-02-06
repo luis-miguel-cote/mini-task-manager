@@ -2,13 +2,19 @@ import api from "./axios";
 
 export const getTasks = () => api.get("/tasks");
 
-export const createTask = (data) =>
-  api.post("/tasks", data);
+// GET all tasks
+export const getTasksRequest = () => api.get("/tasks");
 
-export const updateTask = (id, data) =>
-  api.put(`/tasks/${id}`, data);
+// CREATE task
+export const createTaskRequest = (task) =>
+  api.post("/tasks", task);
 
-export const deleteTask = (id) =>
+// UPDATE task
+export const updateTaskRequest = (id, task) =>
+  api.put(`/tasks/${id}`, task);
+
+// DELETE task
+export const deleteTaskRequest = (id) =>
   api.delete(`/tasks/${id}`);
 
 
