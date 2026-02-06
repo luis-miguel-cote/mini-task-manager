@@ -52,8 +52,13 @@ const tasksSlice = createSlice({
         items: [],
         status: "idle",
         error: null,
+        message: null,
     },
-    reducers: {},
+    reducers: {
+        clearMessage: (state) => {
+            state.message = null;
+        },
+    },
     extraReducers: (builder) => {
         builder
             // ---------- FETCH ----------
@@ -75,7 +80,13 @@ const tasksSlice = createSlice({
             })
 
             // ---------- UPDATE ----------
+            .addCase(updateTask.pending, (state) => {
+                state.status = "loading";
+            })
             .addCase(updateTask.fulfilled, (state, action) => {
+                state.status = "succeeded";
+                state.message = "Task updated";
+
                 const index = state.items.findIndex(
                     (task) => task.id === action.payload.id
                 );
@@ -83,6 +94,11 @@ const tasksSlice = createSlice({
                 if (index !== -1) {
                     state.items[index] = action.payload;
                 }
+            })
+
+            .addCase(updateTask.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.error.message;
             })
 
             // ---------- DELETE ----------
@@ -94,4 +110,5 @@ const tasksSlice = createSlice({
     },
 });
 
+export const { clearMessage } = tasksSlice.actions;
 export default tasksSlice.reducer;

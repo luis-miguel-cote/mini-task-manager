@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LogoutButton from "../../components/LogoutButton";
-import { fetchTasks, createTask, deleteTask, updateTask } from "./tasksSlice";
+import { fetchTasks, createTask, deleteTask, updateTask, clearMessage } from "./tasksSlice";
+
 
 
 
@@ -11,15 +12,15 @@ export default function Tasks() {
     const [editTitle, setEditTitle] = useState("");
     const [editDescription, setEditDescription] = useState("");
     const [editStatus, setEditStatus] = useState("pending");
-    const { items, status, error } = useSelector((state) => state.tasks);
+    const { items, status, error, message } = useSelector((state) => state.tasks);
+    const [filter, setFilter] = useState("all");
+
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
-
-
-    const saveEdit = () => {
-        dispatch(
+    const saveEdit = async () => {
+        await dispatch(
             updateTask({
                 id: editingId,
                 data: {
@@ -28,10 +29,11 @@ export default function Tasks() {
                     status: editStatus,
                 },
             })
-        );
+        ).unwrap();
 
         setEditingId(null);
     };
+
     const cancelEdit = () => {
         setEditingId(null);
     };
@@ -39,6 +41,17 @@ export default function Tasks() {
     useEffect(() => {
         dispatch(fetchTasks());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => {
+                dispatch(clearMessage());
+            }, 2000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [message, dispatch]);
+
 
     const startEdit = (task) => {
         setEditingId(task.id);
@@ -64,11 +77,28 @@ export default function Tasks() {
     if (status === "loading") return <p>Loading tasks...</p>;
     if (status === "failed") return <p>Error: {error}</p>;
 
+    const filteredTasks =
+        filter === "all"
+            ? items
+            : items.filter((task) => task.status === filter);
     return (
+
         <div>
             <LogoutButton />
             <h2>My Tasks</h2>
-
+            {message && (
+                <div
+                    style={{
+                        background: "#e6fffa",
+                        border: "1px solid #38b2ac",
+                        padding: "8px",
+                        marginBottom: "10px",
+                        borderRadius: "4px",
+                    }}
+                >
+                    {message}
+                </div>
+            )}
             {/* CREATE TASK */}
             <form onSubmit={handleSubmit}>
                 <input
@@ -87,9 +117,21 @@ export default function Tasks() {
                 </button>
             </form>
 
+            <select
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+                style={{ marginBottom: "10px" }}
+            >
+                <option value="all">All</option>
+                <option value="pending">Pending</option>
+                <option value="in_progress">In Progress</option>
+                <option value="done">Done</option>
+            </select>
+
+
             {/* LIST TASKS */}
             <ul>
-                {items.map((task) => (
+                {filteredTasks.map((task) => (
                     <li key={task.id} style={{ marginBottom: "1rem" }}>
                         {editingId === task.id ? (
                             <>
@@ -115,9 +157,7 @@ export default function Tasks() {
                                     <option value="done">Done</option>
                                 </select>
 
-                                <button onClick={saveEdit} disabled={status === "loading"}>
-                                    {status === "loading" ? "Saving..." : "Save"}
-                                </button>
+                                <button onClick={saveEdit}>Save</button>
                                 <button onClick={cancelEdit}>Cancel</button>
                             </>
                         ) : (
@@ -125,7 +165,9 @@ export default function Tasks() {
                                 <strong>{task.title}</strong> ({task.status})
 
                                 {task.description && (
-                                    <p style={{ fontStyle: "italic" }}>{task.description}</p>
+                                    <p style={{ fontStyle: "italic" }}>
+                                        {task.description}
+                                    </p>
                                 )}
 
                                 <button onClick={() => startEdit(task)}>Edit</button>
