@@ -1,9 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { login } from "../features/auth/authSlice";
 
 export default function Login() {
   const dispatch = useDispatch();
-  const { status, error } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  const { status, error, token } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,6 +20,11 @@ export default function Login() {
     );
   };
 
+  useEffect(() => {
+  if (token) {
+    navigate("/tasks");
+  }
+}, [token, navigate]);
   return (
     <div>
       <h2>Login</h2>
@@ -28,7 +37,7 @@ export default function Login() {
           placeholder="Password"
           required
         />
-        <button disabled={status === "loading"}>
+        <button type="submit" disabled={status === "loading"}>
           {status === "loading" ? "Loading..." : "Login"}
         </button>
       </form>

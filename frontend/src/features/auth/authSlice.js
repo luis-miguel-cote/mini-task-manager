@@ -4,16 +4,11 @@ import { loginRequest, registerRequest } from "../../api/auth.api";
 // async actions
 export const login = createAsyncThunk(
   "auth/login",
-  async (credentials, { rejectWithValue }) => {
-    try {
-      const res = await loginRequest(credentials);
-      return res.data;
-    } catch (error) {
-      return rejectWithValue(error.response?.data || "Login error");
-    }
+  async (credentials) => {
+    const res = await loginRequest(credentials);
+    return res.data;
   }
 );
-
 export const register = createAsyncThunk(
   "auth/register",
   async (data, { rejectWithValue }) => {
