@@ -3,8 +3,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Tasks from "./features/tasks/Tasks";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import "./app.css";
 function App() {
+
   return (
     <BrowserRouter>
       <Routes>
@@ -23,5 +24,4 @@ function App() {
     </BrowserRouter>
   );
 }
-
 export default App;

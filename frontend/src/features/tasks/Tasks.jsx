@@ -83,7 +83,7 @@ export default function Tasks() {
             : items.filter((task) => task.status === filter);
     return (
 
-        <div>
+        <div className="container" >
             <LogoutButton />
             <h2>My Tasks</h2>
             {message && (
@@ -100,7 +100,7 @@ export default function Tasks() {
                 </div>
             )}
             {/* CREATE TASK */}
-            <form onSubmit={handleSubmit}>
+            <form className="card" onSubmit={handleSubmit}>
                 <input
                     placeholder="Title"
                     value={title}
@@ -112,7 +112,7 @@ export default function Tasks() {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                <button disabled={status === "loading"}>
+                <button className="btn-primary" disabled={status === "loading"}>
                     {status === "loading" ? "Creating..." : "Create"}
                 </button>
             </form>
@@ -130,55 +130,72 @@ export default function Tasks() {
 
 
             {/* LIST TASKS */}
-            <ul>
-                {filteredTasks.map((task) => (
-                    <li key={task.id} style={{ marginBottom: "1rem" }}>
-                        {editingId === task.id ? (
-                            <>
-                                <input
-                                    value={editTitle}
-                                    onChange={(e) => setEditTitle(e.target.value)}
-                                    placeholder="Title"
-                                    required
-                                />
 
-                                <input
-                                    value={editDescription}
-                                    onChange={(e) => setEditDescription(e.target.value)}
-                                    placeholder="Description"
-                                />
+            {/* LIST TASKS */}
+            <div className="card">
+                <ul>
+                    {filteredTasks.map((task) => (
+                        <li key={task.id} style={{ marginBottom: "1rem" }}>
+                            {editingId === task.id ? (
+                                <>
+                                    <input
+                                        value={editTitle}
+                                        onChange={(e) => setEditTitle(e.target.value)}
+                                        placeholder="Title"
+                                        required
+                                    />
 
-                                <select
-                                    value={editStatus}
-                                    onChange={(e) => setEditStatus(e.target.value)}
-                                >
-                                    <option value="pending">Pending</option>
-                                    <option value="in_progress">In Progress</option>
-                                    <option value="done">Done</option>
-                                </select>
+                                    <input
+                                        value={editDescription}
+                                        onChange={(e) => setEditDescription(e.target.value)}
+                                        placeholder="Description"
+                                    />
 
-                                <button onClick={saveEdit}>Save</button>
-                                <button onClick={cancelEdit}>Cancel</button>
-                            </>
-                        ) : (
-                            <>
-                                <strong>{task.title}</strong> ({task.status})
+                                    <select
+                                        value={editStatus}
+                                        onChange={(e) => setEditStatus(e.target.value)}
+                                    >
+                                        <option value="pending">Pending</option>
+                                        <option value="in_progress">In Progress</option>
+                                        <option value="done">Done</option>
+                                    </select>
 
-                                {task.description && (
-                                    <p style={{ fontStyle: "italic" }}>
-                                        {task.description}
-                                    </p>
-                                )}
+                                    <button className="btn-secondary" onClick={saveEdit}>
+                                        Save
+                                    </button>
+                                    <button className="btn-secondary" onClick={cancelEdit}>
+                                        Cancel
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    {/* TÍTULO */}
+                                    <strong>{task.title}</strong>
+                                    <span className={`badge ${task.status}`} style={{ marginLeft: "8px" }}>
+                                        {task.status}
+                                    </span>
 
-                                <button onClick={() => startEdit(task)}>Edit</button>
-                                <button onClick={() => dispatch(deleteTask(task.id))}>
-                                    Delete
-                                </button>
-                            </>
-                        )}
-                    </li>
-                ))}
-            </ul>
+                                    {/* DESCRIPCIÓN */}
+                                    {task.description && (
+                                        <p style={{ fontStyle: "italic", marginTop: "4px" }}>
+                                            {task.description}
+                                        </p>
+                                    )}
+
+                                    {/* ACCIONES */}
+                                    <button onClick={() => startEdit(task)}>Edit</button>
+                                    <button
+                                        className="btn-danger"
+                                        onClick={() => dispatch(deleteTask(task.id))}
+                                    >
+                                        Delete
+                                    </button>
+                                </>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 }
