@@ -18,7 +18,7 @@ class AuthMiddleware
 
         // public routes
         $uri = $request->getURI();
-        $publicRoutes = ['/login', '/register'];
+        $publicRoutes = ['/api/login', '/api/register'];
 
         if (in_array($uri, $publicRoutes)) {
             return true;
