@@ -1,28 +1,66 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTasks } from "./tasksSlice";
+import { fetchTasks, createTask } from "./tasksSlice";
 
 export default function Tasks() {
-  const dispatch = useDispatch();
-  const { items, status, error } = useSelector((state) => state.tasks);
+    const dispatch = useDispatch();
+    const { items, status, error } = useSelector((state) => state.tasks);
 
-  useEffect(() => {
-    dispatch(fetchTasks());
-  }, [dispatch]);
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
 
-  if (status === "loading") return <p>Loading tasks...</p>;
-  if (status === "failed") return <p>Error: {error}</p>;
+    useEffect(() => {
+        dispatch(fetchTasks());
+    }, [dispatch]);
 
-  return (
-    <div>
-      <h2>My Tasks</h2>
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-      <ul>
-        {items.map((task) => (
-          <li key={task.id}>{task.title}</li>
-        ))}
-      </ul>
-    </div>
-  );
+        dispatch(
+            createTask({
+                title,
+                description,
+            })
+        );
+
+        setTitle("");
+        setDescription("");
+    };
+
+    if (status === "loading") return <p>Loading tasks...</p>;
+    if (status === "failed") return <p>Error: {error}</p>;
+
+    return (
+        <div>
+            <h2>My Tasks</h2>
+
+            {/* CREATE TASK */}
+            <form onSubmit={handleSubmit}>
+                <input
+                    placeholder="Title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                />
+                <input
+                    placeholder="Description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
+                <button>Create</button>
+            </form>
+
+            {/* LIST TASKS */}
+            <ul>
+                {items.map((task) => (
+                    <li key={task.id}>
+                        <strong>{task.title}</strong>
+                        <br />
+                        <small>{task.description}</small>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
 }
 

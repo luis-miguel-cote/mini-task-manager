@@ -49,39 +49,11 @@ const tasksSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // fetch
-      .addCase(fetchTasks.pending, (state) => {
-        state.status = "loading";
-      })
       .addCase(fetchTasks.fulfilled, (state, action) => {
-        state.status = "succeeded";
         state.items = action.payload;
       })
-      .addCase(fetchTasks.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
-      })
-
-      // create
       .addCase(createTask.fulfilled, (state, action) => {
         state.items.push(action.payload);
-      })
-
-      // update
-      .addCase(updateTask.fulfilled, (state, action) => {
-        const index = state.items.findIndex(
-          (t) => t.id === action.payload.id
-        );
-        if (index !== -1) {
-          state.items[index] = action.payload;
-        }
-      })
-
-      // delete
-      .addCase(deleteTask.fulfilled, (state, action) => {
-        state.items = state.items.filter(
-          (t) => t.id !== action.payload
-        );
       });
   },
 });
