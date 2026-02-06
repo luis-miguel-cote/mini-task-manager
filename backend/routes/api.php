@@ -30,14 +30,14 @@ $router->addGet('/api/tasks', [
 
 
 #update task
-$router->addPut('/task/{id}', [
+$router->addPut('/api/tasks/{id:[0-9]+}', [
     'controller' => 'tasks',
-    'action' => 'Update',
+    'action' => 'update'
 ]);
 
-$router->addDelete('/tasks/{id}', [
+$router->addDelete('/api/tasks/{id:[0-9]+}', [
     'controller' => 'tasks',
-    'action' => 'delete',
+    'action' => 'delete'
 ]);
 
 $router->addGet('/test', [
