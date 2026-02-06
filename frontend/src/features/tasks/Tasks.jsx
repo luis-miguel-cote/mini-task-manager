@@ -4,13 +4,14 @@ import { fetchTasks } from "./tasksSlice";
 
 export default function Tasks() {
   const dispatch = useDispatch();
-  const { items, status } = useSelector((state) => state.tasks);
+  const { items, status, error } = useSelector((state) => state.tasks);
 
   useEffect(() => {
     dispatch(fetchTasks());
   }, [dispatch]);
 
   if (status === "loading") return <p>Loading tasks...</p>;
+  if (status === "failed") return <p>Error: {error}</p>;
 
   return (
     <div>
@@ -24,3 +25,4 @@ export default function Tasks() {
     </div>
   );
 }
+
