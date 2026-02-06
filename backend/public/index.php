@@ -8,7 +8,14 @@ use App\Middleware\AuthMiddleware;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Db\Adapter\Pdo\Mysql as MysqlAdapter;
 
+header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

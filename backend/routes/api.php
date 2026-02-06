@@ -7,23 +7,23 @@ $router = new Router(false);
 $router->setDefaultNamespace('App\Controllers');
 
 #register routes
-$router->addPost('/register', [
+$router->addPost('/api/register', [
     'controller' => 'auth',
     'action'     => 'register',
 ]);
 #login route
-$router->addPost('/login', [
+$router->addPost('/api/login', [
     'controller' => 'auth',
     'action'     => 'login',
 ]);
 #create task
-$router->addPost('/task', [
+$router->addPost('/api/tasks', [
     'controller' => 'tasks',
     'action' => 'create',
 ]);
 
 #list tasks
-$router->addGet('/tasks', [
+$router->addGet('/api/tasks', [
     'controller' => 'tasks',
     'action' => 'index',
 ]);
