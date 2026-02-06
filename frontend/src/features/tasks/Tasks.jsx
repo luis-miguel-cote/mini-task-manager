@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import LogoutButton from "../../components/LogoutButton";
 import { fetchTasks, createTask, deleteTask, updateTask } from "./tasksSlice";
 
 
@@ -65,6 +66,7 @@ export default function Tasks() {
 
     return (
         <div>
+            <LogoutButton />
             <h2>My Tasks</h2>
 
             {/* CREATE TASK */}
