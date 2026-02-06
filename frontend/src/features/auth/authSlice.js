@@ -26,33 +26,46 @@ const authSlice = createSlice({
   initialState: {
     user: null,
     token: localStorage.getItem("token"),
-    status: "idle",
+    loginStatus: "idle",
+    registerStatus: "idle",
     error: null,
   },
   reducers: {
     logout: (state) => {
       state.user = null;
       state.token = null;
+      state.loginStatus = "idle";
+      state.registerStatus = "idle";
       localStorage.removeItem("token");
     },
   },
   extraReducers: (builder) => {
     builder
+      // LOGIN
       .addCase(login.pending, (state) => {
-        state.status = "loading";
+        state.loginStatus = "loading";
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.loginStatus = "succeeded";
         state.token = action.payload.token;
         state.user = action.payload.user;
         localStorage.setItem("token", action.payload.token);
       })
       .addCase(login.rejected, (state, action) => {
-        state.status = "failed";
+        state.loginStatus = "failed";
         state.error = action.payload;
       })
+
+      // REGISTER
+      .addCase(register.pending, (state) => {
+        state.registerStatus = "loading";
+      })
       .addCase(register.fulfilled, (state) => {
-        state.status = "succeeded";
+        state.registerStatus = "succeeded";
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.registerStatus = "failed";
+        state.error = action.payload;
       });
   },
 });

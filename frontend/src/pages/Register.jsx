@@ -1,13 +1,25 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { register } from "../features/auth/authSlice";
+import { register, logout } from "../features/auth/authSlice";
 
 export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { status, error } = useSelector((state) => state.auth);
+  const { registerStatus, error } = useSelector((state) => state.auth);
+
+  // clean up any existing auth state
+  useEffect(() => {
+    dispatch(logout());
+  }, [dispatch]);
+
+  // login effect
+  useEffect(() => {
+    if (registerStatus === "succeeded") {
+      navigate("/login");
+    }
+  }, [registerStatus, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,11 +32,6 @@ export default function Register() {
       })
     );
   };
-  useEffect(() => {
-    if (status === "succeeded") {
-      navigate("/login");
-    }
-  }, [status, navigate]);
 
   return (
     <div>
@@ -39,8 +46,9 @@ export default function Register() {
           placeholder="Password"
           required
         />
-        <button disabled={status === "loading"}>
-          {status === "loading" ? "Loading..." : "Register"}
+
+        <button disabled={registerStatus === "loading"}>
+          {registerStatus === "loading" ? "Loading..." : "Register"}
         </button>
       </form>
 
