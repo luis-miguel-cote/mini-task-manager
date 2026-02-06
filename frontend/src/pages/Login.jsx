@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../features/auth/authSlice";
+import { Link } from "react-router-dom";
+
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -25,8 +27,9 @@ export default function Login() {
     navigate("/tasks");
   }
 }, [token, navigate]);
-  return (
-    <div>
+return (
+  <div className="auth-container">
+    <div className="auth-card">
       <h2>Login</h2>
 
       <form onSubmit={handleSubmit}>
@@ -43,6 +46,13 @@ export default function Login() {
       </form>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {/* 👉 LINK A REGISTER */}
+      <div className="auth-link">
+        <span>Don’t have an account? </span>
+        <Link to="/register">Register</Link>
+      </div>
     </div>
-  );
+  </div>
+);
 }

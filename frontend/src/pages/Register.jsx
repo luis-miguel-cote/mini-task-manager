@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { register, logout } from "../features/auth/authSlice";
+import { Link } from "react-router-dom";
+
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -33,8 +35,9 @@ export default function Register() {
     );
   };
 
-  return (
-    <div>
+return (
+  <div className="auth-container">
+    <div className="auth-card">
       <h2>Register</h2>
 
       <form onSubmit={handleSubmit}>
@@ -46,13 +49,18 @@ export default function Register() {
           placeholder="Password"
           required
         />
-
         <button disabled={registerStatus === "loading"}>
           {registerStatus === "loading" ? "Loading..." : "Register"}
         </button>
       </form>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
+
+      <div className="auth-link">
+        <span>Already have an account? </span>
+        <Link to="/login">Login</Link>
+      </div>
     </div>
+  </div>
   );
 }
