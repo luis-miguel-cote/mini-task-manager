@@ -1,4 +1,4 @@
-#### Mini Task Manager – Full Stack Project
+### Mini Task Manager – Full Stack Project
 
 Mini full-stack task manager application with user authentication and task management.
 
