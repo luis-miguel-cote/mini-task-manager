@@ -56,6 +56,7 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
 
+
       // REGISTER
       .addCase(register.pending, (state) => {
         state.registerStatus = "loading";

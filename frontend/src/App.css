@@ -73,63 +73,76 @@ select:focus {
   outline: none;
   border-color: var(--blue-light);
 }
-
-/* =========================
-   Buttons
-========================= */
+/* ===== Buttons ===== */
 button {
   border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
+  padding: 6px 12px;
+  border-radius: 4px;
   cursor: pointer;
   font-weight: 600;
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  margin-right: 6px;
 }
 
 .btn-primary {
-  background: var(--magenta);
+  background-color: #1a365d; /* dark blue  */
   color: white;
+}
+
+.btn-primary:hover {
+  background-color: #163052;
 }
 
 .btn-secondary {
-  background: var(--orange);
+  background-color: #e2e8f0; /* grey claro */
+  color: #1a202c;
+}
+
+.btn-secondary:hover {
+  background-color: #cbd5e0;
+}
+
+.btn-success {
+  background-color: #38a169; /* green */
   color: white;
+}
+
+.btn-success:hover {
+  background-color: #2f855a;
 }
 
 .btn-danger {
-  background: #e53e3e;
+  background-color: #e53e3e; /* red*/
   color: white;
 }
 
-/* =========================
-   Badges (status)
-========================= */
+.btn-danger:hover {
+  background-color: #c53030;
+}
+
+/* ===== Badges ===== */
 .badge {
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 600;
-  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: capitalize;
 }
 
 .badge.pending {
-  background: #edf2f7;
-  color: #4a5568;
+  background-color: #ecc94b;
+  color: #744210;
 }
 
 .badge.in_progress {
-  background: #bee3f8;
-  color: var(--blue-light);
+  background-color: #63b3ed;
+  color: #1a365d;
 }
 
 .badge.done {
-  background: #c6f6d5;
-  color: #065f46;
+  background-color: #68d391;
+  color: #22543d;
 }
+
 
 /* =========================
    Feedback messages
@@ -147,21 +160,22 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #f7fafc;
 }
-
 .auth-card {
-  background: white;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 12px;
   width: 100%;
-  max-width: 400px;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  max-width: 380px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  text-align: center;
 }
 
 .auth-card h2 {
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #1a365d; /* azul oscuro */
+  color: #1a365d; /* dark blue*/
 }
 
 .auth-card form {
@@ -177,34 +191,137 @@ button:disabled {
 }
 
 .auth-card button {
-  background: #d53f8c; /* magenta */
+  background-color: #1a365d; /* azul oscuro */
   color: white;
   border: none;
-  padding: 0.6rem;
-  border-radius: 4px;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: bold;
 }
 
 .auth-card button:hover {
-  background: #b83280;
+  background-color: #153055;
 }
 
-.auth-card p {
-  text-align: center;
-  margin-top: 1rem;
+.auth-card input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e0;
 }
+
 .auth-link {
-  margin-top: 1rem;
-  text-align: center;
+  margin-top: 12px;
+  font-size: 0.9rem;
 }
-
 .auth-link a {
-  color: #1a365d; /* azul oscuro */
+  color: #1a365d; /* dark blue */
   text-decoration: none;
   font-weight: bold;
 }
 
 .auth-link a:hover {
   text-decoration: underline;
+}
+.auth-logo {
+  height: 150px;
+  margin-bottom: 1px;
+  transition: height 0.1s ease;
+}
+@media (max-width: 480px) {
+  .auth-logo {
+    height: 85px;
+  }
+}
+.edit-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  color: #2d3748;
+}
+
+.edit-form span {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1a365d; /*  blue */
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+.app-footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #718096;
+  margin-top: 24px;
+}
+.user-name {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.card {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.task-edit {
+  transition: all 0.25s ease;
+}
+
+.task-edit.active {
+  background: #f7fafc;
+  padding: 12px;
+  border-radius: 8px;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  height: 120px;
+  transition: height 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    height: 40px;
+  }
+
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .header-left {
+    gap: 8px;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+.task-edit.active {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }

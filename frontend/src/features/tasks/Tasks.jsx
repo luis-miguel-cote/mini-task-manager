@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LogoutButton from "../../components/LogoutButton";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import logo from "../../assets/logo.png";
 import { fetchTasks, createTask, deleteTask, updateTask, clearMessage } from "./tasksSlice";
 
 
@@ -84,7 +87,7 @@ export default function Tasks() {
     return (
 
         <div className="container" >
-            <LogoutButton />
+            <Header />
             <h2>My Tasks</h2>
             {message && (
                 <div
@@ -136,37 +139,49 @@ export default function Tasks() {
                 <ul>
                     {filteredTasks.map((task) => (
                         <li key={task.id} style={{ marginBottom: "1rem" }}>
-                            {editingId === task.id ? (
-                                <>
-                                    <input
-                                        value={editTitle}
-                                        onChange={(e) => setEditTitle(e.target.value)}
-                                        placeholder="Title"
-                                        required
-                                    />
+                            <div className={`task-edit ${editingId === task.id ? "active" : ""}`}>
+  {editingId === task.id ? (
+                                <div className="edit-form">
+                                    <label>
+                                        <span>Title</span>
+                                        <input
+                                            value={editTitle}
+                                            onChange={(e) => setEditTitle(e.target.value)}
+                                            placeholder="Task title"
+                                            required
+                                        />
+                                    </label>
 
-                                    <input
-                                        value={editDescription}
-                                        onChange={(e) => setEditDescription(e.target.value)}
-                                        placeholder="Description"
-                                    />
+                                    <label>
+                                        <span>Description</span>
+                                        <input
+                                            value={editDescription}
+                                            onChange={(e) => setEditDescription(e.target.value)}
+                                            placeholder="Task description"
+                                        />
+                                    </label>
 
-                                    <select
-                                        value={editStatus}
-                                        onChange={(e) => setEditStatus(e.target.value)}
-                                    >
-                                        <option value="pending">Pending</option>
-                                        <option value="in_progress">In Progress</option>
-                                        <option value="done">Done</option>
-                                    </select>
+                                    <label>
+                                        <span>Status</span>
+                                        <select
+                                            value={editStatus}
+                                            onChange={(e) => setEditStatus(e.target.value)}
+                                        >
+                                            <option value="pending">Pending</option>
+                                            <option value="in_progress">In Progress</option>
+                                            <option value="done">Done</option>
+                                        </select>
+                                    </label>
 
-                                    <button className="btn-secondary" onClick={saveEdit}>
-                                        Save
-                                    </button>
-                                    <button className="btn-secondary" onClick={cancelEdit}>
-                                        Cancel
-                                    </button>
-                                </>
+                                    <div style={{ marginTop: "8px" }}>
+                                        <button className="btn-success" onClick={saveEdit}>
+                                            Save
+                                        </button>
+                                        <button className="btn-secondary" onClick={cancelEdit}>
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
                             ) : (
                                 <>
                                     {/* TÍTULO */}
@@ -183,19 +198,25 @@ export default function Tasks() {
                                     )}
 
                                     {/* ACCIONES */}
-                                    <button onClick={() => startEdit(task)}>Edit</button>
+                                    <button className="btn-secondary" onClick={() => startEdit(task)}>Edit</button>
                                     <button
                                         className="btn-danger"
-                                        onClick={() => dispatch(deleteTask(task.id))}
+                                        onClick={() => {
+                                            if (window.confirm("Are you sure you want to delete this task?")) {
+                                                dispatch(deleteTask(task.id));
+                                            }
+                                        }}
                                     >
                                         Delete
                                     </button>
                                 </>
                             )}
+                            </div>
                         </li>
                     ))}
                 </ul>
             </div>
+            <Footer />
         </div>
     );
 }
