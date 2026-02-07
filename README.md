@@ -29,22 +29,6 @@ This project was developed as a technical assessment, focusing on clean architec
 - Node.js 18+
 - npm or yarn
 
-## Project Structure
-
-/
-├── backend
-│   ├── app
-│   ├── routes
-│   ├── config
-│   ├── database
-│   └── public
-│
-├── frontend
-│   ├── src
-│   ├── public
-│   └── package.json
-│
-└── README.md
 
 ### Setup & Execution
 
