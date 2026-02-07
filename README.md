@@ -61,6 +61,8 @@ backend will be available at:
 
 ## 3. Frontend setup
 
+Navigate to Frontend folder:
+cd Frontend
 npm install
 
 # Configure Api Base URL in:
@@ -69,7 +71,7 @@ npm install
     example:
 
     baseURL: "http://localhost:8000:api"
-# Start development server:
+# Start development server in :
     npm run dev
 
 🔐 Authentication Flow
